@@ -11,9 +11,9 @@ quadraticRoots :: Floating t => t -> t -> t -> (t, t)
 quadraticRoots a b c = (p_root, n_root)
   where
     real =  - b / (2 * a)
-    delta = b^2 - 4 * a * c
-    p_root = real + sqrt delta / (2 * a)
-    n_root = real - sqrt delta / (2 * a)
+    img = sqrt (b^2 - 4 * a * c) / (2 * a)
+    p_root = real + img
+    n_root = real - img
 
 
 -- Problem 2
