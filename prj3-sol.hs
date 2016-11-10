@@ -11,7 +11,7 @@ quadraticRoots :: Floating t => t -> t -> t -> (t, t)
 quadraticRoots a b c = (p_root, n_root)
   where
     real =  - b / (2 * a)
-    delta = b * b - 4 * a * c
+    delta = b^2 - 4 * a * c
     p_root = real + sqrt delta / (2 * a)
     n_root = real - sqrt delta / (2 * a)
 
@@ -145,38 +145,3 @@ flattenTree tree =
 catenateTreeLists :: Tree [a] -> [a]
 catenateTreeLists tree =
   foldl (++) [] (flattenTree tree)
-
-
-main =  do
-    putStr "-- "; print $ quadraticRoots 2 5 2
-    putStr "-- "; print $ quadraticRoots 5 6 1
-    putStr "-- "; print $ take 10 $ iterateFunction (\x->x+1) 0
-    putStr "-- "; print $ take 5 $ iterateFunction (\x->x*x) 2
-    putStr "-- "; print $ take 10 $ multiples 3
-    putStr "-- "; print $ take 10 $ multiples (-3)
-    putStr "-- "; print $ take 15 $ hailstones 3
-    putStr "-- "; print $ take 15 $ hailstones 7
-    putStr "-- "; print $ hailstonesLen 3
-    putStr "-- "; print $ hailstonesLen 7
-    putStr "-- "; print $ hailstonesLen 77031
-    putStr "-- "; print $ sumAbsDiffs []
-    putStr "-- "; print $ sumAbsDiffs [2]
-    putStr "-- "; print $ sumAbsDiffs [1..5]
-    putStr "-- "; print $ sumAbsDiffs [1, 3, -5, 5]
-    putStr "-- "; print $ distances (0, 0) []
-    putStr "-- "; print $ distances (0, 0) [(1, 1), (0, 2), (3, 4)]
-    putStr "-- "; print $ sumLengths []
-    putStr "-- "; print $ sumLengths [(0, 0)]
-    putStr "-- "; print $ sumLengths [(0, 0), (0, 2), (3, 6)]
-    putStr "-- "; print $ sumLengths [(0, 0), (0, 2), (3, 6), (0, 2)]
-    putStr "-- "; print $ occurrences "twas brillig and the slithy toves" 't'
-    putStr "-- "; print $ occurrences "twas brillig and the slithy toves" 'x'
-    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2) (Leaf 5)
-    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2) (Tree (Leaf 3) 2 (Leaf 4))
-    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2)(Tree (Leaf 5) 3 (Tree (Leaf 3) 2 (Leaf 4)))
-    putStr "-- "; print $ flattenTree (Leaf 5)
-    putStr "-- "; print $ flattenTree  (Tree (Leaf 5) 3 (Tree (Leaf 3) 2 (Leaf 4)))
-    putStr "-- "; print $ flattenTree  (Tree (Leaf [5]) [3] (Tree (Leaf [3, 2]) [1, 2] (Leaf [4, 5])))
-    putStr "-- "; print $ catenateTreeLists  (Tree (Leaf [5]) [3] (Tree (Leaf [3, 2]) [1, 2] (Leaf [4, 5])))
-    putStr "-- "; print $ catenateTreeLists  (Tree (Leaf "twas ") "brillig " (Tree (Leaf "and ") "the slithy " (Leaf "toves")))
-
