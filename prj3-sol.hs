@@ -85,7 +85,10 @@ distances pt points =
 -- May NOT use recursion.
 sumLengths :: Floating a => [(a, a)] -> a
 sumLengths pointsList =
-  foldr (+) 0 (zipWith (\ x y -> sqrt((fst y - fst x)^2 + (snd y - snd x)^2)) pointsList (tail pointsList))
+  foldr (+) 0 (
+    zipWith (\ x y -> sqrt((fst y - fst x)^2 + (snd y - snd x)^2))
+      pointsList
+      (tail pointsList))
 
 
 -- Problem 9
@@ -115,20 +118,24 @@ data Tree t = Leaf t
 -- For all below: lst: left sub tree , rst: right sub tree, val: node, lf: leaf
 
 -- E.g. >>> foldTree (\ t1 t t2 -> t1+3*t+t2) (\x -> x*2) (Leaf 5)
--- E.g. >>> foldTree (\ t1 t t2 -> t1+3*t+t2) (\x -> x*2) (InternalNode (Leaf 3) 2 (Leaf 4))
+-- E.g. >>> foldTree (\ t1 t t2 -> t1+3*t+t2) (\x -> x*2) (Tree (Leaf 3) 2 (Leaf 4))
 foldTree :: (t1 -> t -> t1 -> t1) -> (t -> t1) -> Tree t -> t1
 foldTree treeFn leafFn (Leaf tree) = leafFn tree
 foldTree treeFn leafFn (Tree lst val rst) =
   treeFn (foldTree treeFn leafFn lst) val (foldTree treeFn leafFn rst)
+
 
 -- Problem 11
 -- Return list containing flattening of tree.  The elements of the
 -- list correspond to the elements stored in the tree ordered as per 
 -- an in-order traversal of the tree. Must be implemented using foldTree.
 -- May NOT use recursion.
+-- E.g. >>> flattenTree  (Tree (Leaf 5) 3 (Tree (Leaf 3) 2 (Leaf 4)))
+-- (++) ((++) lst [val]) rst): can be rewritten as lst ++ [val] ++ rst
 flattenTree :: Tree a -> [a]
 flattenTree tree =
-  foldTree (\ lst val rst -> lst ++ [val] ++ rst) (\ lf -> [lf]) tree
+  foldTree (\ lst val rst -> (++) ((++) lst [val]) rst) (\ lf -> [lf]) tree
+
 
 -- Problem 12
 -- Given tree of type (Tree [t]) return list which is concatenation
@@ -138,3 +145,38 @@ flattenTree tree =
 catenateTreeLists :: Tree [a] -> [a]
 catenateTreeLists tree =
   foldl (++) [] (flattenTree tree)
+
+
+main =  do
+    putStr "-- "; print $ quadraticRoots 2 5 2
+    putStr "-- "; print $ quadraticRoots 5 6 1
+    putStr "-- "; print $ take 10 $ iterateFunction (\x->x+1) 0
+    putStr "-- "; print $ take 5 $ iterateFunction (\x->x*x) 2
+    putStr "-- "; print $ take 10 $ multiples 3
+    putStr "-- "; print $ take 10 $ multiples (-3)
+    putStr "-- "; print $ take 15 $ hailstones 3
+    putStr "-- "; print $ take 15 $ hailstones 7
+    putStr "-- "; print $ hailstonesLen 3
+    putStr "-- "; print $ hailstonesLen 7
+    putStr "-- "; print $ hailstonesLen 77031
+    putStr "-- "; print $ sumAbsDiffs []
+    putStr "-- "; print $ sumAbsDiffs [2]
+    putStr "-- "; print $ sumAbsDiffs [1..5]
+    putStr "-- "; print $ sumAbsDiffs [1, 3, -5, 5]
+    putStr "-- "; print $ distances (0, 0) []
+    putStr "-- "; print $ distances (0, 0) [(1, 1), (0, 2), (3, 4)]
+    putStr "-- "; print $ sumLengths []
+    putStr "-- "; print $ sumLengths [(0, 0)]
+    putStr "-- "; print $ sumLengths [(0, 0), (0, 2), (3, 6)]
+    putStr "-- "; print $ sumLengths [(0, 0), (0, 2), (3, 6), (0, 2)]
+    putStr "-- "; print $ occurrences "twas brillig and the slithy toves" 't'
+    putStr "-- "; print $ occurrences "twas brillig and the slithy toves" 'x'
+    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2) (Leaf 5)
+    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2) (Tree (Leaf 3) 2 (Leaf 4))
+    putStr "-- "; print $ foldTree (\t1 t t2->t1 + 3*t + t2) (\x->x*2)(Tree (Leaf 5) 3 (Tree (Leaf 3) 2 (Leaf 4)))
+    putStr "-- "; print $ flattenTree (Leaf 5)
+    putStr "-- "; print $ flattenTree  (Tree (Leaf 5) 3 (Tree (Leaf 3) 2 (Leaf 4)))
+    putStr "-- "; print $ flattenTree  (Tree (Leaf [5]) [3] (Tree (Leaf [3, 2]) [1, 2] (Leaf [4, 5])))
+    putStr "-- "; print $ catenateTreeLists  (Tree (Leaf [5]) [3] (Tree (Leaf [3, 2]) [1, 2] (Leaf [4, 5])))
+    putStr "-- "; print $ catenateTreeLists  (Tree (Leaf "twas ") "brillig " (Tree (Leaf "and ") "the slithy " (Leaf "toves")))
+
