@@ -1,4 +1,5 @@
-**HASKELL PROGRAMMING**
+            **HASKELL PROGRAMMING**
+
 ----------------------------------------------------
       Status: **Everything working. Complete.**
 ----------------------------------------------------
