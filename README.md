@@ -1,8 +1,8 @@
-** HASKELL PROGRAMMING **
+**HASKELL PROGRAMMING**
 
 ------------------------------------------------------
 
-** Comments: Project contains the following **
+**Comments: Project contains the following**
 
 - Following are the functions implemented using 
   Haskell expressions syntax
