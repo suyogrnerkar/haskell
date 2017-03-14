@@ -1,10 +1,8 @@
-            **HASKELL PROGRAMMING**
+** HASKELL PROGRAMMING **
 
-----------------------------------------------------
-      Status: **Everything working. Complete.**
-----------------------------------------------------
+------------------------------------------------------
 
-** Extra comments: Project contains the following **
+** Comments: Project contains the following **
 
 - Following are the functions implemented using 
   Haskell expressions syntax
